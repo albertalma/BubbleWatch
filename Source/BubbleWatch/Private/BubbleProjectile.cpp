@@ -32,7 +32,15 @@ void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
     ABubble* hittedBubble = Cast<ABubble>(OtherActor);
     if (hittedBubble != nullptr)
     {
-        hittedBubble->Destroy();
-        Destroy();
+        if (hittedBubble->GetBubbleColor() == GetBubbleColor())
+        {
+            hittedBubble->Destroy();
+            Destroy();
+        }
+        else
+        {
+            SetLifeSpan(0.f);
+            m_pProjectileMovementComponent->Deactivate();
+        }
     }
 }

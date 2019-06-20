@@ -15,6 +15,10 @@ class BUBBLEWATCH_API ACustomBubbleWatchCharacter : public ABubbleWatchCharacter
 	
 protected:
 
+    UFUNCTION()
+        void DestroyProjectile(AActor* DestroyedActor);
+
+
     virtual void SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams) override;
 public:
 
