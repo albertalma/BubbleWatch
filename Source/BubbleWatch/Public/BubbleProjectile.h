@@ -27,5 +27,8 @@ protected:
 private:
 
     UProjectileMovementComponent* m_pProjectileMovementComponent;
-    UShapeComponent* m_pShapeComponent;
+
+    UShapeComponent* m_pHitComponent;
+    UShapeComponent* m_pOverlapComponent;
+
 };
