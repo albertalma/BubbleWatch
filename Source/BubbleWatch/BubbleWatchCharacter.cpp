@@ -150,7 +150,7 @@ void ABubbleWatchCharacter::OnFire()
 			{
 				const FRotator SpawnRotation = VR_MuzzleLocation->GetComponentRotation();
 				const FVector SpawnLocation = VR_MuzzleLocation->GetComponentLocation();
-				World->SpawnActor<ABubbleWatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+                SpawnProjectile(World, SpawnRotation, SpawnLocation, FActorSpawnParameters());
 			}
 			else
 			{
@@ -163,7 +163,7 @@ void ABubbleWatchCharacter::OnFire()
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 				// spawn the projectile at the muzzle
-				World->SpawnActor<ABubbleWatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+                SpawnProjectile(World, SpawnRotation, SpawnLocation,FActorSpawnParameters());
 			}
 		}
 	}
@@ -185,6 +185,12 @@ void ABubbleWatchCharacter::OnFire()
 		}
 	}
 }
+
+void ABubbleWatchCharacter::SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams)
+{
+    World->SpawnActor<ABubbleWatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+}
+
 
 void ABubbleWatchCharacter::OnResetVR()
 {
