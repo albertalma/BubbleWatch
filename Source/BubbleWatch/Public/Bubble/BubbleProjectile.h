@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Albert Alma Ltd.
 
 #pragma once
 
@@ -18,6 +18,9 @@ class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubble
 
 public:
 
+    void Enable();
+    void Disable();
+
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     EColor GetBubbleColor();
     virtual EColor GetBubbleColor_Implementation() override;
@@ -25,9 +28,14 @@ public:
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+    UFUNCTION(BlueprintImplementableEvent)
+    void SetBubbleColor();
+
 protected:
 
     virtual void BeginPlay() override;
+
+    virtual void LifeSpanExpired() override;
 
 private:
 
@@ -38,5 +46,7 @@ private:
 
     UShapeComponent* m_pHitComponent;
     UShapeComponent* m_pOverlapComponent;
+
+    float m_fInitialLifeSpan;
 
 };

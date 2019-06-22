@@ -1,14 +1,42 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Albert Alma Ltd.
 
 
 #include "BubbleProjectile.h"
 #include "Components/ShapeComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
+void ABubbleProjectile::Enable()
+{
+    SetLifeSpan(m_fInitialLifeSpan);
+    SetActorHiddenInGame(false);
+    SetActorEnableCollision(true);
+    SetActorTickEnabled(true);
+    m_pProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * m_pProjectileMovementComponent->InitialSpeed);
+    m_pProjectileMovementComponent->Activate();
+}
+
+void ABubbleProjectile::Disable()
+{
+    int n = FMath::RandRange(0, static_cast<int>(EColor::LASTCOLOR) - 1);
+    m_eColor = static_cast<EColor>(n);
+    SetBubbleColor();
+    SetLifeSpan(0.f);
+    SetActorHiddenInGame(true);
+    SetActorEnableCollision(false);
+    SetActorTickEnabled(false);
+    m_pProjectileMovementComponent->Deactivate();
+}
+
+void ABubbleProjectile::LifeSpanExpired()
+{
+    Disable();
+}
+
 void ABubbleProjectile::BeginPlay()
 {
     Super::BeginPlay();
 
+    m_fInitialLifeSpan = InitialLifeSpan;
     m_pHitComponent = Cast<UShapeComponent>(GetComponentByClass(UShapeComponent::StaticClass()));
     TArray<UActorComponent*> overlapComponents = GetComponentsByTag(UShapeComponent::StaticClass(), "Overlap");
     if (ensure(overlapComponents.Num() > 0))
@@ -27,6 +55,7 @@ void ABubbleProjectile::BeginPlay()
 
         if (ensure(m_pProjectileMovementComponent))
         {
+            m_pProjectileMovementComponent->Deactivate();
             m_pProjectileMovementComponent->UpdatedComponent = m_pHitComponent;
         }
     }
@@ -39,8 +68,8 @@ void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
         EColor hittedColor = IBubble::Execute_GetBubbleColor(OtherActor);
         if (hittedColor == IBubble::Execute_GetBubbleColor(this))
         {
-            OtherActor->Destroy();
-            Destroy();
+            //OtherActor->Destroy();
+            Disable();
         }
         else
         {

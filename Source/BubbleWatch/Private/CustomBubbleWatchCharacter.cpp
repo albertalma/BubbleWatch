@@ -1,10 +1,24 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Albert Alma Ltd.
 
 #include "CustomBubbleWatchCharacter.h"
 #include "Bubble/BubbleProjectile.h"
+#include "Pool/BubblePool.h"
+
+ACustomBubbleWatchCharacter::ACustomBubbleWatchCharacter()
+{
+
+}
+
+void ACustomBubbleWatchCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+    m_pBubblePool = NewObject<UBubblePool>();
+    m_pBubblePool->InitialisePool(GetWorld(), BubbleProjectileClass, MaxProjectiles);
+}
 
 void ACustomBubbleWatchCharacter::SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams)
 {
-    ABubbleProjectile* bubbleProjectile = World->SpawnActor<ABubbleProjectile>(BubbleProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-    ensure(bubbleProjectile);
+    ABubbleProjectile* bubbleProjectile = m_pBubblePool->GetBubble();
+    bubbleProjectile->SetActorLocationAndRotation(SpawnLocation, SpawnRotation);
+    bubbleProjectile->Enable();
 }
