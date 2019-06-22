@@ -30,4 +30,12 @@ public:
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     EColor GetBubbleColor();
 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void SetBubbleColor(EColor Color);
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void Disable();
+
+    UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+    void SetMaterialBubbleColor();
 };

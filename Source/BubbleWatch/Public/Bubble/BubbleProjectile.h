@@ -19,17 +19,21 @@ class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubble
 public:
 
     void Enable();
-    void Disable();
 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void Disable();
+    virtual void Disable_Implementation() override;
+   
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     EColor GetBubbleColor();
     virtual EColor GetBubbleColor_Implementation() override;
 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void SetBubbleColor(EColor Color);
+    virtual void SetBubbleColor_Implementation(EColor Color) override;
+
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-
-    UFUNCTION(BlueprintImplementableEvent)
-    void SetBubbleColor();
 
 protected:
 
@@ -41,6 +45,9 @@ private:
 
     UPROPERTY(EditAnyWhere, Category = "Settings")
     EColor m_eColor;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Settings")
+    TSubclassOf<class AGhost> GhostClass;
 
     UProjectileMovementComponent* m_pProjectileMovementComponent;
 
