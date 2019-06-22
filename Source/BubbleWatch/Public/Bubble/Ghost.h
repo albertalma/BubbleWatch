@@ -17,6 +17,8 @@ class BUBBLEWATCH_API AGhost : public ACharacter, public IBubble
 
 public:
 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    EColor GetBubbleColor();
     virtual EColor GetBubbleColor_Implementation() override;
 
 private:

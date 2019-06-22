@@ -26,7 +26,7 @@ class BUBBLEWATCH_API IBubble
 
 public:
 
-    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     EColor GetBubbleColor();
 
 };

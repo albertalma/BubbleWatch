@@ -18,6 +18,8 @@ class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubble
 
 public:
 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    EColor GetBubbleColor();
     virtual EColor GetBubbleColor_Implementation() override;
 
     UFUNCTION()
