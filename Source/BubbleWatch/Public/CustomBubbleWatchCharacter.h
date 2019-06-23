@@ -8,6 +8,7 @@
 
 struct FActorSpawnParameters;
 class UBubblePool;
+class UHealthComponent;
 
 UCLASS()
 class BUBBLEWATCH_API ACustomBubbleWatchCharacter : public ABubbleWatchCharacter
@@ -17,6 +18,18 @@ class BUBBLEWATCH_API ACustomBubbleWatchCharacter : public ABubbleWatchCharacter
 public:
 
     ACustomBubbleWatchCharacter();
+
+    UFUNCTION(BlueprintCallable, Category = "Bubbles")
+    EColor GetCurrentBubble();
+
+    UFUNCTION(BlueprintCallable, Category = "Bubbles")
+    EColor GetNextBubble();
+
+    UFUNCTION(BlueprintCallable, Category = "Health")
+    float GetCurrentHealth();
+
+    UFUNCTION(BlueprintCallable, Category = "Health")
+    float GetMaxHealth();
 	
 protected:
     virtual void BeginPlay() override;
@@ -36,4 +49,7 @@ private:
 
     UPROPERTY()
     UBubblePool* m_pBubblePool;
+
+    UPROPERTY()
+    UHealthComponent* m_pHealthComponent;
 };
