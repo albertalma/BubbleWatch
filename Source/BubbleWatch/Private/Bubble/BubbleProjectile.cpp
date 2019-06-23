@@ -6,7 +6,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Ghost/Ghost.h"
 
-void ABubbleProjectile::Enable()
+void ABubbleProjectile::Enable_Implementation()
 {
     SetLifeSpan(m_fInitialLifeSpan);
     SetActorHiddenInGame(false);

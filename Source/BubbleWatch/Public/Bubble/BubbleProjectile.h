@@ -18,7 +18,9 @@ class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubble
 
 public:
 
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void Enable();
+    virtual void Enable_Implementation() override;
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void Disable();

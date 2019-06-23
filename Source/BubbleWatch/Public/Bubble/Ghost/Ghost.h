@@ -25,6 +25,11 @@ public:
     void SetBubbleColor(EColor Color);
     virtual void SetBubbleColor_Implementation(EColor Color) override;
 
+
+    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+    void Enable();
+    virtual void Enable_Implementation() override;
+
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void Disable();
     virtual void Disable_Implementation() override;
