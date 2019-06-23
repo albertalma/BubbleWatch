@@ -28,7 +28,9 @@ public:
 	
 private:
 
+    UPROPERTY()
     TArray<ABubbleProjectile*> m_aBubblePool;
 
+    UPROPERTY()
     int m_iIndex;
 };

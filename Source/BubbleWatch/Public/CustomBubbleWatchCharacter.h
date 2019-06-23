@@ -34,5 +34,6 @@ public:
 
 private:
 
+    UPROPERTY()
     UBubblePool* m_pBubblePool;
 };

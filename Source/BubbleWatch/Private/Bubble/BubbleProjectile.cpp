@@ -19,8 +19,11 @@ void ABubbleProjectile::Enable()
 void ABubbleProjectile::Disable_Implementation()
 {
     int n = FMath::RandRange(0, static_cast<int>(EColor::LASTCOLOR) - 1);
-    IBubble::Execute_SetBubbleColor(this, static_cast<EColor>(n));
-    IBubble::Execute_SetMaterialBubbleColor(this);
+    if (ensure(this->GetClass()->ImplementsInterface(UBubble::StaticClass())))
+    {
+        IBubble::Execute_SetBubbleColor(this, static_cast<EColor>(n));
+        IBubble::Execute_SetMaterialBubbleColor(this);
+    }
     SetLifeSpan(0.f);
     SetActorHiddenInGame(true);
     SetActorEnableCollision(false);
@@ -64,12 +67,14 @@ void ABubbleProjectile::BeginPlay()
 
 void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    if (OtherActor->Implements<UBubble>())
+    IBubble* bubbleInterface = Cast<IBubble>(OtherActor);
+    IBubble* projectileInterface = Cast<IBubble>(this);
+    if (bubbleInterface && ensure(projectileInterface))
     {
-        EColor hittedColor = IBubble::Execute_GetBubbleColor(OtherActor);
-        if (hittedColor == IBubble::Execute_GetBubbleColor(this))
+        EColor hittedColor = bubbleInterface->Execute_GetBubbleColor(OtherActor);
+        if (hittedColor == projectileInterface->Execute_GetBubbleColor(this))
         {
-            IBubble::Execute_Disable(OtherActor);
+            bubbleInterface->Execute_Disable(OtherActor);
         }
         else
         {
@@ -86,12 +91,14 @@ void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
                 AGhost* ghost = (AGhost*) World->SpawnActor<AGhost>(GhostClass, spawnLocation, GetActorRotation());
                 if (ghost != nullptr)
                 {
-                    IBubble::Execute_SetBubbleColor(ghost, m_eColor);
-                    IBubble::Execute_SetMaterialBubbleColor(ghost);
+                    IBubble* ghostBubble = Cast<IBubble>(ghost);
+                    ensure(ghostBubble);
+                    ghostBubble->Execute_SetBubbleColor(ghost, m_eColor);
+                    ghostBubble->Execute_SetMaterialBubbleColor(ghost);
                 }
             }
         }
-        IBubble::Execute_Disable(this);
+        projectileInterface->Execute_Disable(this);
     }
 }
 
