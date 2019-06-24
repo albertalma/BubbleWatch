@@ -54,7 +54,6 @@ private:
     UProjectileMovementComponent* m_pProjectileMovementComponent;
 
     UShapeComponent* m_pHitComponent;
-    UShapeComponent* m_pOverlapComponent;
 
     float m_fInitialLifeSpan;
 

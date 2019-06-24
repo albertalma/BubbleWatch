@@ -8,6 +8,7 @@
 
 void ABubbleProjectile::Enable_Implementation()
 {
+    UE_LOG(LogTemp, Warning, TEXT("Projectile Location: %s"), *GetActorLocation().ToString())
     SetLifeSpan(m_fInitialLifeSpan);
     SetActorHiddenInGame(false);
     SetActorEnableCollision(true);
@@ -42,11 +43,6 @@ void ABubbleProjectile::BeginPlay()
 
     m_fInitialLifeSpan = InitialLifeSpan;
     m_pHitComponent = Cast<UShapeComponent>(GetComponentByClass(UShapeComponent::StaticClass()));
-    TArray<UActorComponent*> overlapComponents = GetComponentsByTag(UShapeComponent::StaticClass(), "Overlap");
-    if (ensure(overlapComponents.Num() > 0))
-    {
-        m_pOverlapComponent = Cast<UShapeComponent>(overlapComponents[0]);
-    }
     m_pProjectileMovementComponent = Cast<UProjectileMovementComponent>(GetComponentByClass(UProjectileMovementComponent::StaticClass()));
 
     if (ensure(m_pHitComponent))
@@ -59,7 +55,6 @@ void ABubbleProjectile::BeginPlay()
 
         if (ensure(m_pProjectileMovementComponent))
         {
-            m_pProjectileMovementComponent->Deactivate();
             m_pProjectileMovementComponent->UpdatedComponent = m_pHitComponent;
         }
     }

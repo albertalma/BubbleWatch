@@ -12,12 +12,12 @@ UBubblePool::UBubblePool()
 {
 }
 
-void UBubblePool::InitialisePool(UWorld* const World, TSubclassOf<class ABubbleProjectile> BubbleClass, int MaxElements)
+void UBubblePool::InitialisePool(UWorld* const World, TSubclassOf<class ABubbleProjectile> BubbleClass, int MaxElements, FVector Location, FRotator Rotation)
 {
     m_iIndex = 0;
     for (int i = 0; i < MaxElements; ++i)
     {
-        ABubbleProjectile* bubble = (ABubbleProjectile*)World->SpawnActor<ABubbleProjectile>(BubbleClass, FVector(), FRotator());
+        ABubbleProjectile* bubble = (ABubbleProjectile*)World->SpawnActor<ABubbleProjectile>(BubbleClass, Location, Rotation);
         ensure(bubble);
         bubble->Disable();
         m_aBubblePool.Add(bubble);

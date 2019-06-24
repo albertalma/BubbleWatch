@@ -18,14 +18,14 @@ public:
 
     UBubblePool();
 
-    void InitialisePool(UWorld* const World, TSubclassOf<class ABubbleProjectile> BubbleClass, int MaxElements);
+    void InitialisePool(UWorld* const World, TSubclassOf<class ABubbleProjectile> BubbleClass, int MaxElementsFVector, FVector Location, FRotator Rotation);
 
     ABubbleProjectile* GetBubble();
 
     EColor GetCurrentBubbleColor();
+
     EColor GetNextBubbleColor();
 
-	
 private:
 
     UPROPERTY()
