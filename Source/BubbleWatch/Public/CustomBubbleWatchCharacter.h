@@ -44,11 +44,17 @@ protected:
 public:
 
     /** Projectile class to spawn */
-    UPROPERTY(EditDefaultsOnly, Category = Projectile)
+    UPROPERTY(EditDefaultsOnly, Category = "Projectile")
     TSubclassOf<class ABubbleProjectile> BubbleProjectileClass;
 
-    UPROPERTY(EditAnyWhere, Category = Projectile)
+    UPROPERTY(EditAnyWhere, Category = "Projectile")
     int MaxProjectiles = 20.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+   class USoundBase* DamageSound;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
+    class USoundBase* LoseSound;
 
 private:
 

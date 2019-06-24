@@ -57,12 +57,20 @@ EColor ACustomBubbleWatchCharacter::GetNextBubble()
 
 float ACustomBubbleWatchCharacter::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser)
 {
+    if (DamageSound != nullptr)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, DamageSound, GetActorLocation());
+    }
     m_pHealthComponent->DecreaseHealth(Damage);
     return Damage;
 }
 
 void ACustomBubbleWatchCharacter::OnCharacterDead()
 {
+    if (LoseSound != nullptr)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, LoseSound, GetActorLocation());
+    }
     UWorld* TheWorld = GetWorld();
     UGameplayStatics::OpenLevel(GetWorld(), "GameOver");
 }
