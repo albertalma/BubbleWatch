@@ -4,6 +4,7 @@
 #include "Bubble/BubbleProjectile.h"
 #include "Pool/BubblePool.h"
 #include "Components/HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ACustomBubbleWatchCharacter::ACustomBubbleWatchCharacter()
 {
@@ -17,7 +18,10 @@ void ACustomBubbleWatchCharacter::BeginPlay()
     m_pBubblePool->InitialisePool(GetWorld(), BubbleProjectileClass, MaxProjectiles, GetActorLocation(), GetActorRotation());
 
     m_pHealthComponent = Cast< UHealthComponent>(GetComponentByClass(UHealthComponent::StaticClass()));
-    ensure(m_pHealthComponent);
+    if (ensure(m_pHealthComponent))
+    {
+        m_pHealthComponent->OnHealthBelowZero.AddUniqueDynamic(this, &ACustomBubbleWatchCharacter::OnCharacterDead);
+    }
 }
 
 void ACustomBubbleWatchCharacter::SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams)
@@ -51,3 +55,14 @@ EColor ACustomBubbleWatchCharacter::GetNextBubble()
     return m_pBubblePool->GetNextBubbleColor();
 }
 
+float ACustomBubbleWatchCharacter::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser)
+{
+    m_pHealthComponent->DecreaseHealth(Damage);
+    return Damage;
+}
+
+void ACustomBubbleWatchCharacter::OnCharacterDead()
+{
+    UWorld* TheWorld = GetWorld();
+    UGameplayStatics::OpenLevel(GetWorld(), "GameOver");
+}

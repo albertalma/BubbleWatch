@@ -19,6 +19,7 @@ float UHealthComponent::DecreaseHealth(float DecreaseValue)
     m_fHealth -= DecreaseValue;
     if (m_fHealth < 0)
     {
+        OnHealthBelowZero.Broadcast();
         m_fHealth = 0;
     }
     return m_fHealth;

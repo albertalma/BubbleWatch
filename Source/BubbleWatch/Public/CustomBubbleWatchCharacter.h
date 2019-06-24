@@ -36,6 +36,11 @@ protected:
 
     virtual void SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams) override;
 
+    virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, class AActor* DamageCauser) override;
+
+    UFUNCTION()
+    void OnCharacterDead();
+
 public:
 
     /** Projectile class to spawn */
