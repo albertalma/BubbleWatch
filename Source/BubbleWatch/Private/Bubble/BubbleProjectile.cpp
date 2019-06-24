@@ -8,7 +8,6 @@
 
 void ABubbleProjectile::Enable_Implementation()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Projectile Location: %s"), *GetActorLocation().ToString())
     SetLifeSpan(m_fInitialLifeSpan);
     SetActorHiddenInGame(false);
     SetActorEnableCollision(true);
@@ -34,7 +33,11 @@ void ABubbleProjectile::Disable_Implementation()
 
 void ABubbleProjectile::LifeSpanExpired()
 {
-    Disable();
+    IBubble* projectileInterface = Cast<IBubble>(this);
+    if (ensure(projectileInterface))
+    {
+        projectileInterface->Execute_Disable(this);
+    }
 }
 
 void ABubbleProjectile::BeginPlay()
@@ -80,7 +83,7 @@ void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
                 FVector origin;
                 FVector box;
                 OtherActor->GetActorBounds(true, origin, box);
-                direction *= -1; //We want the inversed direction to spawn far away the colliding ghost
+                direction *= -1; 
                 FVector spawnLocation = GetActorLocation() + direction * box.Z;
                 spawnLocation.Z = OtherActor->GetActorLocation().Z;
                 AGhost* ghost = (AGhost*) World->SpawnActor<AGhost>(GhostClass, spawnLocation, GetActorRotation());

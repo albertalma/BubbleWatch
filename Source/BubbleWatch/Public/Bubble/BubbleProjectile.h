@@ -7,7 +7,6 @@
 #include "GameFramework/Actor.h"
 #include "BubbleProjectile.generated.h"
 
-
 class UProjectileMovementComponent;
 class UShapeComponent;
 
@@ -51,10 +50,13 @@ private:
     UPROPERTY(EditDefaultsOnly, Category = "Settings")
     TSubclassOf<class AGhost> GhostClass;
 
+    UPROPERTY()
     UProjectileMovementComponent* m_pProjectileMovementComponent;
 
+    UPROPERTY()
     UShapeComponent* m_pHitComponent;
 
+    UPROPERTY()
     float m_fInitialLifeSpan;
 
 };

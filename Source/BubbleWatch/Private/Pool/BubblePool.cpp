@@ -5,9 +5,6 @@
 #include "GameFramework/Actor.h"
 #include "Containers/Array.h"
 
-#include "EngineGlobals.h"
-#include "Runtime/Engine/Classes/Engine/Engine.h"
-
 UBubblePool::UBubblePool()
 {
 }
@@ -27,9 +24,7 @@ void UBubblePool::InitialisePool(UWorld* const World, TSubclassOf<class ABubbleP
 ABubbleProjectile* UBubblePool::GetBubble()
 {
     ABubbleProjectile* bubble = m_aBubblePool[m_iIndex];
-    m_iIndex = (m_iIndex >= m_aBubblePool.Num()-1) ? 0 : m_iIndex + 1;
-    GEngine->AddOnScreenDebugMessage(1, 60.f, FColor::Red, FString::Printf(TEXT("Current Color: %i"), static_cast<int>(GetCurrentBubbleColor())));
-    GEngine->AddOnScreenDebugMessage(2, 60.f, FColor::Red, FString::Printf(TEXT("Next Color: %i"), static_cast<int>(GetNextBubbleColor())));
+    m_iIndex = GetNextIndex();
     return bubble;
 }
 
@@ -41,8 +36,12 @@ EColor UBubblePool::GetCurrentBubbleColor()
 
 EColor UBubblePool::GetNextBubbleColor()
 {
-    //TODO move this into a function
-    int index = (m_iIndex >= m_aBubblePool.Num() - 1) ? 0 : m_iIndex + 1;
+    int index = GetNextIndex();
     ABubbleProjectile* bubble = m_aBubblePool[index];
     return bubble->GetBubbleColor();
+}
+
+int UBubblePool::GetNextIndex()
+{
+    return (m_iIndex >= m_aBubblePool.Num() - 1) ? 0 : m_iIndex + 1;
 }

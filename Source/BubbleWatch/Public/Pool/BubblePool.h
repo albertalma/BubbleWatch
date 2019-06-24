@@ -8,7 +8,6 @@
 #include "Bubble/BubbleProjectile.h"
 #include "BubblePool.generated.h"
 
-
 UCLASS()
 class BUBBLEWATCH_API UBubblePool : public UObject
 {
@@ -25,6 +24,10 @@ public:
     EColor GetCurrentBubbleColor();
 
     EColor GetNextBubbleColor();
+
+private:
+
+    int GetNextIndex();
 
 private:
 

@@ -32,6 +32,7 @@ public:
     float GetMaxHealth();
 	
 protected:
+
     virtual void BeginPlay() override;
 
     virtual void SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams) override;

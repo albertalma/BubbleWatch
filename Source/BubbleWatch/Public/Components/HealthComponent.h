@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUBBLEWATCH_API UHealthComponent : public UActorComponent
 {
@@ -15,7 +14,6 @@ class BUBBLEWATCH_API UHealthComponent : public UActorComponent
 public:	
 
     DECLARE_DYNAMIC_MULTICAST_DELEGATE(FHealthBelowZeroSignature);
-
 
 	// Sets default values for this component's properties
 	UHealthComponent();

@@ -11,7 +11,6 @@ EColor AGhost::GetBubbleColor_Implementation()
 
 void AGhost::Enable_Implementation()
 {
-    //TODO Enable and disable AIController changing something in the blackboard probably
     int n = FMath::RandRange(0, static_cast<int>(EColor::LASTCOLOR) - 1);
     if (ensure(this->GetClass()->ImplementsInterface(UBubble::StaticClass())))
     {

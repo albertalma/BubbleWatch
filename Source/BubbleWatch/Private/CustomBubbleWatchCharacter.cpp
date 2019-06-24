@@ -17,7 +17,7 @@ void ACustomBubbleWatchCharacter::BeginPlay()
     m_pBubblePool = NewObject<UBubblePool>();
     m_pBubblePool->InitialisePool(GetWorld(), BubbleProjectileClass, MaxProjectiles, GetActorLocation(), GetActorRotation());
 
-    m_pHealthComponent = Cast< UHealthComponent>(GetComponentByClass(UHealthComponent::StaticClass()));
+    m_pHealthComponent = Cast<UHealthComponent>(GetComponentByClass(UHealthComponent::StaticClass()));
     if (ensure(m_pHealthComponent))
     {
         m_pHealthComponent->OnHealthBelowZero.AddUniqueDynamic(this, &ACustomBubbleWatchCharacter::OnCharacterDead);
@@ -27,10 +27,7 @@ void ACustomBubbleWatchCharacter::BeginPlay()
 void ACustomBubbleWatchCharacter::SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams)
 {
     ABubbleProjectile* bubbleProjectile = m_pBubblePool->GetBubble();
-    UE_LOG(LogTemp, Warning, TEXT("Spawn Location: %s"), *SpawnLocation.ToString())
-        bubbleProjectile->SetActorLocation(SpawnLocation);
-    UE_LOG(LogTemp, Warning, TEXT("bubbleProjectile Location: %s"), *bubbleProjectile->GetActorLocation().ToString())
-
+    bubbleProjectile->SetActorLocation(SpawnLocation);
     bubbleProjectile->SetActorRotation(SpawnRotation);
     bubbleProjectile->Enable();
 }
