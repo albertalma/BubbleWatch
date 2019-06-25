@@ -7,6 +7,7 @@
 #include "EnemySpawner.generated.h"
 
 class AGhost;
+class UGhostPool;
 
 UCLASS()
 class BUBBLEWATCH_API AEnemySpawner : public AActor
@@ -16,6 +17,9 @@ class BUBBLEWATCH_API AEnemySpawner : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AEnemySpawner();
+
+    void SpawnEnemy(FVector Location, FVector Rotation);
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -38,7 +42,7 @@ private:
     TSubclassOf<class AGhost> GhostClass;
 
     UPROPERTY()
-    TArray<AGhost*> m_aEnemiesPool;
+    UGhostPool* m_pGhostPool;
 
     UPROPERTY()
     int m_iIndex;

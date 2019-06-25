@@ -7,7 +7,7 @@
 #include "CustomBubbleWatchCharacter.generated.h"
 
 struct FActorSpawnParameters;
-class UBubblePool;
+class UBubbleProjectilePool;
 class UHealthComponent;
 
 UCLASS()
@@ -60,7 +60,7 @@ public:
 private:
 
     UPROPERTY()
-    UBubblePool* m_pBubblePool;
+    UBubbleProjectilePool* m_pBubbleProjectilePool;
 
     UPROPERTY()
     UHealthComponent* m_pHealthComponent;

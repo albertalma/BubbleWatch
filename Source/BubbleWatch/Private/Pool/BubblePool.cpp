@@ -9,39 +9,36 @@ UBubblePool::UBubblePool()
 {
 }
 
-void UBubblePool::InitialisePool(UWorld* const World, TSubclassOf<class ABubbleProjectile> BubbleClass, int MaxElements, FVector Location, FRotator Rotation)
+void UBubblePool::InitialisePool(UWorld* const World, TSubclassOf<class UObject> BubbleClass, int MaxElements, FVector Location, FRotator Rotation)
 {
     m_iIndex = 0;
     for (int i = 0; i < MaxElements; ++i)
     {
-        ABubbleProjectile* bubble = (ABubbleProjectile*)World->SpawnActor<ABubbleProjectile>(BubbleClass, Location, Rotation);
-        ensure(bubble);
-        bubble->Disable();
-        m_aBubblePool.Add(bubble);
+        UObject* spawnedBubble = World->SpawnActor<UObject>(BubbleClass, Location, Rotation);
+        AddBubble(spawnedBubble);
     }
 }
 
-ABubbleProjectile* UBubblePool::GetBubble()
+IBubble* UBubblePool::GetBubble()
 {
-    ABubbleProjectile* bubble = m_aBubblePool[m_iIndex];
+    IBubble* bubble = Cast<IBubble>(m_aBubblePool[m_iIndex].GetObject());
     m_iIndex = GetNextIndex();
     return bubble;
-}
-
-EColor UBubblePool::GetCurrentBubbleColor()
-{
-    ABubbleProjectile* bubble = m_aBubblePool[m_iIndex];
-    return bubble->GetBubbleColor();
-}
-
-EColor UBubblePool::GetNextBubbleColor()
-{
-    int index = GetNextIndex();
-    ABubbleProjectile* bubble = m_aBubblePool[index];
-    return bubble->GetBubbleColor();
 }
 
 int UBubblePool::GetNextIndex()
 {
     return (m_iIndex >= m_aBubblePool.Num() - 1) ? 0 : m_iIndex + 1;
+}
+
+void UBubblePool::AddBubble(UObject* bubble)
+{
+    if (ensure(bubble->GetClass()->ImplementsInterface(UBubble::StaticClass())))
+    {
+        TScriptInterface<IBubble> bubbleInterface;
+        bubbleInterface.SetInterface(Cast <IBubble>(bubble));
+        bubbleInterface.SetObject(bubble);
+        bubbleInterface->Execute_Disable(bubble);
+        m_aBubblePool.Add(bubbleInterface);
+    }
 }

@@ -2,6 +2,7 @@
 
 #include "EnemySpawner.h"
 #include "Ghost/Ghost.h"
+#include "Pool/GhostPool.h"
 
 // Sets default values
 AEnemySpawner::AEnemySpawner()
@@ -18,13 +19,9 @@ void AEnemySpawner::BeginPlay()
 	Super::BeginPlay();
     m_iIndex = 0;
     m_fTimer = m_fSpawnRateSeconds;
-    for (int i = 0; i < m_iEnemiesNumber; ++i)
-    {
-        AGhost* ghost = (AGhost*) GetWorld()->SpawnActor<AGhost>(GhostClass, GetActorLocation(), GetActorRotation());
-        ensure(ghost);
-        ghost->Disable();
-        m_aEnemiesPool.Add(ghost);
-    }
+
+    m_pGhostPool = NewObject<UGhostPool>();
+    m_pGhostPool->InitialisePool(GetWorld(), GhostClass, m_iEnemiesNumber, GetActorLocation(), GetActorRotation());
 }
 
 // Called every frame
@@ -33,7 +30,9 @@ void AEnemySpawner::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
     if (m_fTimer >= m_fSpawnRateSeconds && m_iIndex < m_iEnemiesNumber)
     {
-        AGhost* ghost = m_aEnemiesPool[m_iIndex];
+        AGhost* ghost = (AGhost*) m_pGhostPool->GetBubble();
+        ghost->SetActorLocation(GetActorLocation());
+        ghost->SetActorRotation(GetActorRotation());
         ghost->Enable();
         ++m_iIndex;
         m_fTimer = 0;

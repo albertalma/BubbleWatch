@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Containers/Queue.h"
-#include "Bubble/BubbleProjectile.h"
+#include "Bubble/Bubble.h"
 #include "BubblePool.generated.h"
 
 UCLASS()
@@ -17,22 +17,20 @@ public:
 
     UBubblePool();
 
-    void InitialisePool(UWorld* const World, TSubclassOf<class ABubbleProjectile> BubbleClass, int MaxElementsFVector, FVector Location, FRotator Rotation);
+    virtual void InitialisePool(UWorld* const World, TSubclassOf<class UObject> BubbleClass, int MaxElementsFVector, FVector Location, FRotator Rotation);
 
-    ABubbleProjectile* GetBubble();
+    virtual IBubble* GetBubble();
 
-    EColor GetCurrentBubbleColor();
+    virtual void AddBubble(UObject* Bubble);
 
-    EColor GetNextBubbleColor();
-
-private:
+protected:
 
     int GetNextIndex();
 
-private:
+protected:
 
     UPROPERTY()
-    TArray<ABubbleProjectile*> m_aBubblePool;
+    TArray<TScriptInterface<IBubble>> m_aBubblePool;
 
     UPROPERTY()
     int m_iIndex;
