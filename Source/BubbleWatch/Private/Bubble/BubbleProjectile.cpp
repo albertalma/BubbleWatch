@@ -91,11 +91,11 @@ void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
                 AGhost* ghost;
                 if (EnemySpawner != nullptr)
                 {
-                    ghost = EnemySpawner->SpawnEnemy(spawnLocation, GetActorRotation());
+                    ghost = EnemySpawner->SpawnEnemy(spawnLocation, OtherActor->GetActorRotation());
                 }
                 else
                 {
-                    ghost = (AGhost*)World->SpawnActor<AGhost>(GhostClass, spawnLocation, GetActorRotation());
+                    ghost = (AGhost*)World->SpawnActor<AGhost>(GhostClass, spawnLocation, OtherActor->GetActorRotation());
                 }
                 if (ghost != nullptr)
                 {

@@ -15,7 +15,7 @@ void AEnemySpawner::BeginPlay()
 	Super::BeginPlay();
     m_iIndex = 0;
     m_fTimer = m_fSpawnRateSeconds;
-    m_iTotalEnemiesNumber = m_iInitialEnemiesNumber;
+    m_iTotalEnemiesNumber = 0;
     m_iEnemiesNumberCounter = 0;
     m_pGhostPool = NewObject<UGhostPool>();
     m_pGhostPool->InitialisePool(GetWorld(), GhostClass, m_iInitialEnemiesNumber, GetActorLocation(), GetActorRotation());
@@ -25,7 +25,11 @@ void AEnemySpawner::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-    if (m_fTimer >= m_fSpawnRateSeconds)
+    if (m_iIndex >= m_iInitialEnemiesNumber)
+    {
+        SetActorTickEnabled(false);
+    }
+    else if (m_fTimer >= m_fSpawnRateSeconds)
     {
         SpawnEnemy(GetActorLocation(), GetActorRotation());
         ++m_iIndex;
@@ -36,10 +40,7 @@ void AEnemySpawner::Tick(float DeltaSeconds)
         m_fTimer += DeltaSeconds;
     }
 
-    if (m_iIndex > m_iInitialEnemiesNumber)
-    {
-        SetActorTickEnabled(false);
-    }
+
 }
 
 AGhost* AEnemySpawner::SpawnEnemy(FVector Location, FRotator Rotation)
@@ -54,15 +55,12 @@ AGhost* AEnemySpawner::SpawnEnemy(FVector Location, FRotator Rotation)
     else
     {
        ghost = GetWorld()->SpawnActor<AGhost>(GhostClass, Location, Rotation);
-       if (ghost != nullptr)
-       {
-           ++m_iTotalEnemiesNumber;
-       }
     }
     if (ghost != nullptr)
     {
         ghost->SetSpawner(this);
         ghost->Enable();
+        ++m_iTotalEnemiesNumber;
     }
     return ghost;
 }
