@@ -15,7 +15,14 @@ void UBubblePool::InitialisePool(UWorld* const World, TSubclassOf<class UObject>
     for (int i = 0; i < MaxElements; ++i)
     {
         UObject* spawnedBubble = World->SpawnActor<UObject>(BubbleClass, Location, Rotation);
-        AddBubble(spawnedBubble);
+        if (ensure(spawnedBubble->GetClass()->ImplementsInterface(UBubble::StaticClass())))
+        {
+            TScriptInterface<IBubble> bubbleInterface;
+            bubbleInterface.SetInterface(Cast <IBubble>(spawnedBubble));
+            bubbleInterface.SetObject(spawnedBubble);
+            bubbleInterface->Execute_Disable(spawnedBubble);
+            m_aBubblePool.Add(bubbleInterface);
+        }
     }
 }
 
@@ -38,7 +45,6 @@ void UBubblePool::AddBubble(UObject* bubble)
         TScriptInterface<IBubble> bubbleInterface;
         bubbleInterface.SetInterface(Cast <IBubble>(bubble));
         bubbleInterface.SetObject(bubble);
-        bubbleInterface->Execute_Disable(bubble);
         m_aBubblePool.Add(bubbleInterface);
     }
 }

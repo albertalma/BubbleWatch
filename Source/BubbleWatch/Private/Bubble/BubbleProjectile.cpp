@@ -5,6 +5,7 @@
 #include "Components/ShapeComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Ghost/Ghost.h"
+#include "EnemySpawner.h"
 
 void ABubbleProjectile::Enable_Implementation()
 {
@@ -86,7 +87,16 @@ void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
                 direction *= -1; 
                 FVector spawnLocation = GetActorLocation() + direction * box.Z;
                 spawnLocation.Z = OtherActor->GetActorLocation().Z;
-                AGhost* ghost = (AGhost*) World->SpawnActor<AGhost>(GhostClass, spawnLocation, GetActorRotation());
+
+                AGhost* ghost;
+                if (EnemySpawner != nullptr)
+                {
+                    ghost = EnemySpawner->SpawnEnemy(spawnLocation, GetActorRotation());
+                }
+                else
+                {
+                    ghost = (AGhost*)World->SpawnActor<AGhost>(GhostClass, spawnLocation, GetActorRotation());
+                }
                 if (ghost != nullptr)
                 {
                     IBubble* ghostBubble = Cast<IBubble>(ghost);

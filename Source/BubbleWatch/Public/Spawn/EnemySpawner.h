@@ -18,8 +18,9 @@ public:
 	// Sets default values for this actor's properties
 	AEnemySpawner();
 
-    void SpawnEnemy(FVector Location, FVector Rotation);
+    AGhost* SpawnEnemy(FVector Location, FRotator Rotation);
 
+    void AddEnemy(AGhost* Ghost);
 
 protected:
 	// Called when the game starts or when spawned

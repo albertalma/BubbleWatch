@@ -3,6 +3,7 @@
 
 #include "Ghost.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "EnemySpawner.h"
 
 EColor AGhost::GetBubbleColor_Implementation()
 {
@@ -29,6 +30,10 @@ void AGhost::Disable_Implementation()
     SetActorHiddenInGame(true);
     SetActorEnableCollision(false);
     SetActorTickEnabled(false);
+    if (m_pSpawner != nullptr)
+    {
+        m_pSpawner->AddEnemy(this);
+    }
 }
 
 void AGhost::SetBubbleColor_Implementation(EColor Color)

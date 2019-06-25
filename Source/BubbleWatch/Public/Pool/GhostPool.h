@@ -17,4 +17,5 @@ public:
 
     virtual IBubble* GetBubble() override;
 
+    FORCEINLINE int GetAvailableBubbles() { return m_aBubblePool.Num(); }
 };

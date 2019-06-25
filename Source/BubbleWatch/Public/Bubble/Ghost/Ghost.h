@@ -7,9 +7,8 @@
 #include "Bubble.h"
 #include "Ghost.generated.h"
 
-/**
- * 
- */
+class AEnemySpawner;
+
 UCLASS()
 class BUBBLEWATCH_API AGhost : public ACharacter, public IBubble
 {
@@ -33,9 +32,13 @@ public:
     void Disable();
     virtual void Disable_Implementation() override;
 
+    FORCEINLINE void SetSpawner(AEnemySpawner* Spawner) { m_pSpawner = Spawner; }
+
 private:
 
     UPROPERTY(EditAnyWhere, Category = "Settings")
     EColor m_eColor;
 	
+    UPROPERTY()
+    AEnemySpawner* m_pSpawner;
 };

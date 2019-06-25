@@ -9,6 +9,7 @@
 
 class UProjectileMovementComponent;
 class UShapeComponent;
+class AEnemySpawner;
 
 UCLASS()
 class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubble
@@ -41,6 +42,11 @@ protected:
     virtual void BeginPlay() override;
 
     virtual void LifeSpanExpired() override;
+
+public:
+
+    UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Settings")
+    AEnemySpawner* EnemySpawner;
 
 private:
 
