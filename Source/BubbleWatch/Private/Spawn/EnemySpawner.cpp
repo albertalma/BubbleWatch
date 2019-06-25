@@ -5,17 +5,13 @@
 #include "Pool/GhostPool.h"
 #include "Kismet/GameplayStatics.h"
 
-// Sets default values
 AEnemySpawner::AEnemySpawner()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void AEnemySpawner::BeginPlay()
 {
-    //TODO Maybe a generic pool??
 	Super::BeginPlay();
     m_iIndex = 0;
     m_fTimer = m_fSpawnRateSeconds;
@@ -25,7 +21,6 @@ void AEnemySpawner::BeginPlay()
     m_pGhostPool->InitialisePool(GetWorld(), GhostClass, m_iInitialEnemiesNumber, GetActorLocation(), GetActorRotation());
 }
 
-// Called every frame
 void AEnemySpawner::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);

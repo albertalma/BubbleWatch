@@ -5,5 +5,4 @@
 UBubble::UBubble(const class FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
 {
-
 }

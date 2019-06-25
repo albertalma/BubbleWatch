@@ -1,6 +1,5 @@
 // Copyright Albert Alma Ltd.
 
-
 #include "HealthComponent.h"
 
 UHealthComponent::UHealthComponent()

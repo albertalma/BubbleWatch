@@ -8,7 +8,6 @@
 
 ACustomBubbleWatchCharacter::ACustomBubbleWatchCharacter()
 {
-
 }
 
 void ACustomBubbleWatchCharacter::BeginPlay()
