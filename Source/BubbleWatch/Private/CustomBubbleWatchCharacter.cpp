@@ -64,10 +64,6 @@ float ACustomBubbleWatchCharacter::TakeDamage(float Damage, struct FDamageEvent 
 
 void ACustomBubbleWatchCharacter::OnCharacterDead()
 {
-    if (LoseSound != nullptr)
-    {
-        UGameplayStatics::PlaySoundAtLocation(this, LoseSound, GetActorLocation());
-    }
     UWorld* TheWorld = GetWorld();
     UGameplayStatics::OpenLevel(GetWorld(), "GameOver");
 }

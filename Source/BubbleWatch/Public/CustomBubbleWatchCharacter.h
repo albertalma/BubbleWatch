@@ -52,10 +52,7 @@ public:
     int MaxProjectiles = 20.0f;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
-   class USoundBase* DamageSound;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Gameplay")
-    class USoundBase* LoseSound;
+    class USoundBase* DamageSound;
 
 private:
 
