@@ -26,7 +26,7 @@ Ideas for the future
 ---
 - Add FX, music and animations
 - Add some kind of limitator on the ammo of the gun, making the user think more which is going to be their next shot.
--- With limited ammo some object in order to recover ammo.
+- With limited ammo some object in order to recover ammo.
 - Add Health powerup in order to recover health
 - Add more ghosts types 
 - Add more bubble types
@@ -103,5 +103,4 @@ I'm using the BlackBoard to set the Random Location (with the help of a BTServic
 
 I added a really basic UI just to add a brief introduction and to have some feedback to know when the user has lost or win. 
 
-
-
+Also the Hud of the player has been added using bindings from blueprint.
