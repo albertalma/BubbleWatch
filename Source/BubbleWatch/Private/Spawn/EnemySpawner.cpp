@@ -3,6 +3,7 @@
 #include "EnemySpawner.h"
 #include "Ghost/Ghost.h"
 #include "Pool/GhostPool.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AEnemySpawner::AEnemySpawner()
@@ -18,16 +19,18 @@ void AEnemySpawner::BeginPlay()
 	Super::BeginPlay();
     m_iIndex = 0;
     m_fTimer = m_fSpawnRateSeconds;
-
+    m_iTotalEnemiesNumber = m_iInitialEnemiesNumber;
+    m_iEnemiesNumberCounter = 0;
     m_pGhostPool = NewObject<UGhostPool>();
-    m_pGhostPool->InitialisePool(GetWorld(), GhostClass, m_iEnemiesNumber, GetActorLocation(), GetActorRotation());
+    m_pGhostPool->InitialisePool(GetWorld(), GhostClass, m_iInitialEnemiesNumber, GetActorLocation(), GetActorRotation());
 }
 
 // Called every frame
 void AEnemySpawner::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-    if (m_fTimer >= m_fSpawnRateSeconds && m_iIndex < m_iEnemiesNumber)
+
+    if (m_fTimer >= m_fSpawnRateSeconds)
     {
         SpawnEnemy(GetActorLocation(), GetActorRotation());
         ++m_iIndex;
@@ -36,6 +39,11 @@ void AEnemySpawner::Tick(float DeltaSeconds)
     else
     {
         m_fTimer += DeltaSeconds;
+    }
+
+    if (m_iIndex > m_iInitialEnemiesNumber)
+    {
+        SetActorTickEnabled(false);
     }
 }
 
@@ -51,6 +59,10 @@ AGhost* AEnemySpawner::SpawnEnemy(FVector Location, FRotator Rotation)
     else
     {
        ghost = GetWorld()->SpawnActor<AGhost>(GhostClass, Location, Rotation);
+       if (ghost != nullptr)
+       {
+           ++m_iTotalEnemiesNumber;
+       }
     }
     if (ghost != nullptr)
     {
@@ -63,7 +75,12 @@ AGhost* AEnemySpawner::SpawnEnemy(FVector Location, FRotator Rotation)
 void AEnemySpawner::AddEnemy(AGhost* Ghost)
 {
     m_pGhostPool->AddBubble(Ghost);
-
+    ++m_iEnemiesNumberCounter;
+    if (m_iEnemiesNumberCounter == m_iTotalEnemiesNumber)
+    {
+        UWorld* TheWorld = GetWorld();
+        UGameplayStatics::OpenLevel(GetWorld(), "WinMenu");
+    }
 }
 
 

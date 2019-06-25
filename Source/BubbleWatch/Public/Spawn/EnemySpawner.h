@@ -33,7 +33,7 @@ public:
 private:
 
     UPROPERTY(EditAnyWhere, Category = "Spawn Settings")
-    int m_iEnemiesNumber;
+    int m_iInitialEnemiesNumber;
 
     UPROPERTY(EditAnyWhere, Category = "Spawn Settings")
     float m_fSpawnRateSeconds;
@@ -50,4 +50,10 @@ private:
 
     UPROPERTY()
     float m_fTimer;
+
+    UPROPERTY()
+    int m_iTotalEnemiesNumber;
+
+    UPROPERTY()
+    int m_iEnemiesNumberCounter;
 };
