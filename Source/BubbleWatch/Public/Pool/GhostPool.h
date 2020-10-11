@@ -13,6 +13,7 @@ UCLASS()
 class BUBBLEWATCH_API UGhostPool : public UBubblePool
 {
 	GENERATED_BODY()
+
 public:
 
     virtual IBubbleInterface* PopBubble() override;
