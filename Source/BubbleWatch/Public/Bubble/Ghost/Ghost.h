@@ -4,32 +4,24 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Bubble.h"
+#include "BubbleInterface.h"
 #include "Ghost.generated.h"
 
 class AEnemySpawner;
 
 UCLASS()
-class BUBBLEWATCH_API AGhost : public ACharacter, public IBubble
+class BUBBLEWATCH_API AGhost : public ACharacter, public IBubbleInterface
 {
 	GENERATED_BODY()
 
 public:
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    EColor GetBubbleColor();
-    virtual EColor GetBubbleColor_Implementation() override;
+    virtual EColor GetBubbleColor_Implementation() const override;
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void SetBubbleColor(EColor Color);
     virtual void SetBubbleColor_Implementation(EColor Color) override;
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void Enable();
     virtual void Enable_Implementation() override;
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void Disable();
     virtual void Disable_Implementation() override;
 
     FORCEINLINE void SetSpawner(AEnemySpawner* Spawner) { m_pSpawner = Spawner; }
