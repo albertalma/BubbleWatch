@@ -3,9 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
-#include "Containers/Queue.h"
-#include "Bubble/Bubble.h"
+#include "BubbleInterface.h"
 #include "BubblePool.generated.h"
 
 UCLASS()
@@ -19,18 +17,19 @@ public:
 
     virtual void InitialisePool(UWorld* const World, TSubclassOf<class UObject> BubbleClass, int MaxElementsFVector, FVector Location, FRotator Rotation);
 
-    virtual IBubble* GetBubble();
+    /* Get current bubble and increase index */
+    virtual IBubbleInterface* PopBubble();
 
-    virtual void AddBubble(UObject* Bubble);
+    virtual void AddBubble(IBubbleInterface* Bubble);
 
 protected:
 
-    int GetNextIndex();
+    int GetNextIndex() const;
 
 protected:
 
     UPROPERTY()
-    TArray<TScriptInterface<IBubble>> m_aBubblePool;
+    TArray<TScriptInterface<IBubbleInterface>> m_aBubblePool;
 
     UPROPERTY()
     int m_iIndex;

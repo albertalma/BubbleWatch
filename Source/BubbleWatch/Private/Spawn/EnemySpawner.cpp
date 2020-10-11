@@ -48,7 +48,7 @@ AGhost* AEnemySpawner::SpawnEnemy(FVector Location, FRotator Rotation)
     AGhost* ghost;
     if (m_pGhostPool->GetAvailableBubbles() > 0)
     {
-        ghost = (AGhost*) m_pGhostPool->GetBubble();
+        ghost = (AGhost*) m_pGhostPool->PopBubble();
         ghost->SetActorLocation(Location);
         ghost->SetActorRotation(Rotation);
     }
@@ -59,7 +59,7 @@ AGhost* AEnemySpawner::SpawnEnemy(FVector Location, FRotator Rotation)
     if (ghost != nullptr)
     {
         ghost->SetSpawner(this);
-        ghost->Enable();
+        IBubbleInterface::Execute_Enable(ghost);
         ++m_iTotalEnemiesNumber;
     }
     return ghost;

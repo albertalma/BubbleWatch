@@ -5,6 +5,7 @@
 #include "Pool/BubbleProjectilePool.h"
 #include "Components/HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Bubble_fwd.h"
 
 ACustomBubbleWatchCharacter::ACustomBubbleWatchCharacter()
 {
@@ -25,28 +26,28 @@ void ACustomBubbleWatchCharacter::BeginPlay()
 
 void ACustomBubbleWatchCharacter::SpawnProjectile(UWorld* const World, const FRotator SpawnRotation, const FVector SpawnLocation, FActorSpawnParameters ActorSpawnParams)
 {
-    ABubbleProjectile* bubbleProjectile =  (ABubbleProjectile*) m_pBubbleProjectilePool->GetBubble();
+    ABubbleProjectile* bubbleProjectile =  (ABubbleProjectile*) m_pBubbleProjectilePool->PopBubble();
     bubbleProjectile->SetActorLocation(SpawnLocation);
     bubbleProjectile->SetActorRotation(SpawnRotation);
-    bubbleProjectile->Enable();
+    IBubbleInterface::Execute_Enable(bubbleProjectile);
 }
 
-float ACustomBubbleWatchCharacter::GetCurrentHealth()
+float ACustomBubbleWatchCharacter::GetCurrentHealth() const
 {
     return m_pHealthComponent->GetCurrentHealth();
 }
 
-float ACustomBubbleWatchCharacter::GetMaxHealth()
+float ACustomBubbleWatchCharacter::GetMaxHealth() const
 {
     return m_pHealthComponent->GetMaxHealth();
 }
 
-EColor ACustomBubbleWatchCharacter::GetCurrentBubble()
+EColor ACustomBubbleWatchCharacter::GetCurrentBubble() const
 {
     return m_pBubbleProjectilePool->GetCurrentBubbleColor();
 }
 
-EColor ACustomBubbleWatchCharacter::GetNextBubble()
+EColor ACustomBubbleWatchCharacter::GetNextBubble() const
 {
     return m_pBubbleProjectilePool->GetNextBubbleColor();
 }

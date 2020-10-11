@@ -20,16 +20,16 @@ public:
     ACustomBubbleWatchCharacter();
 
     UFUNCTION(BlueprintCallable, Category = "Bubbles")
-    EColor GetCurrentBubble();
+    EColor GetCurrentBubble() const;
 
     UFUNCTION(BlueprintCallable, Category = "Bubbles")
-    EColor GetNextBubble();
+    EColor GetNextBubble() const;
 
     UFUNCTION(BlueprintCallable, Category = "Health")
-    float GetCurrentHealth();
+    float GetCurrentHealth() const;
 
     UFUNCTION(BlueprintCallable, Category = "Health")
-    float GetMaxHealth();
+    float GetMaxHealth() const;
 	
 protected:
 

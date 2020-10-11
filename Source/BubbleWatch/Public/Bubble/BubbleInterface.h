@@ -4,31 +4,24 @@
 
 #include "Object.h"
 #include "CoreMinimal.h"
-#include "Bubble.generated.h"
+#include "Bubble_fwd.h"
+#include "BubbleInterface.generated.h"
 
-UENUM(BlueprintType)		
-enum class EColor : uint8
-{
-    BLUE 	    UMETA(DisplayName = "Blue"),
-    RED 	    UMETA(DisplayName = "Red"),
-    YELLOW	    UMETA(DisplayName = "Yellow"),
-    LASTCOLOR   UMETA(DisplayName = "Last")
-};
 
 UINTERFACE()
-class BUBBLEWATCH_API UBubble : public UInterface
+class BUBBLEWATCH_API UBubbleInterface : public UInterface
 {
     GENERATED_UINTERFACE_BODY()
 };
 
-class BUBBLEWATCH_API IBubble
+class BUBBLEWATCH_API IBubbleInterface
 {
     GENERATED_IINTERFACE_BODY()
 
 public:
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    EColor GetBubbleColor();
+    EColor GetBubbleColor() const;
 
     UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
     void SetBubbleColor(EColor Color);

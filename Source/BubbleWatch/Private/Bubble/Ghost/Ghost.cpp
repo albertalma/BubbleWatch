@@ -4,8 +4,9 @@
 #include "Ghost.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnemySpawner.h"
+#include "Bubble_fwd.h"
 
-EColor AGhost::GetBubbleColor_Implementation()
+EColor AGhost::GetBubbleColor_Implementation() const
 {
     return m_eColor;
 }
@@ -13,11 +14,8 @@ EColor AGhost::GetBubbleColor_Implementation()
 void AGhost::Enable_Implementation()
 {
     int n = FMath::RandRange(0, static_cast<int>(EColor::LASTCOLOR) - 1);
-    if (ensure(this->GetClass()->ImplementsInterface(UBubble::StaticClass())))
-    {
-        IBubble::Execute_SetBubbleColor(this, static_cast<EColor>(n));
-        IBubble::Execute_SetMaterialBubbleColor(this);
-    }
+    IBubbleInterface::Execute_SetBubbleColor(this, static_cast<EColor>(n));
+    IBubbleInterface::Execute_SetMaterialBubbleColor(this);
     GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
     SetActorHiddenInGame(false);
     SetActorEnableCollision(true);

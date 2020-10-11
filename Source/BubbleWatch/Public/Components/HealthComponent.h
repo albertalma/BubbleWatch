@@ -18,8 +18,8 @@ public:
 	// Sets default values for this component's properties
 	UHealthComponent();
 
-    FORCEINLINE float GetCurrentHealth() { return m_fHealth;  }
-    FORCEINLINE float GetMaxHealth() { return m_fMaxHealth; }
+    FORCEINLINE float GetCurrentHealth() const { return m_fHealth;  }
+    FORCEINLINE float GetMaxHealth() const { return m_fMaxHealth; }
 
     float DecreaseHealth(float DecreaseValue);
 
