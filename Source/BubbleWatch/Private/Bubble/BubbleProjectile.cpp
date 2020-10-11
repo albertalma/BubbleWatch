@@ -6,6 +6,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Ghost/Ghost.h"
 #include "EnemySpawner.h"
+#include "BubbleInterface.h"
+#include "Bubble_fwd.h"
 
 void ABubbleProjectile::Enable_Implementation()
 {
@@ -20,10 +22,10 @@ void ABubbleProjectile::Enable_Implementation()
 void ABubbleProjectile::Disable_Implementation()
 {
     int n = FMath::RandRange(0, static_cast<int>(EColor::LASTCOLOR) - 1);
-    if (ensure(this->GetClass()->ImplementsInterface(UBubble::StaticClass())))
+    if (ensure(this->GetClass()->ImplementsInterface(UBubbleInterface::StaticClass())))
     {
-        IBubble::Execute_SetBubbleColor(this, static_cast<EColor>(n));
-        IBubble::Execute_SetMaterialBubbleColor(this);
+        IBubbleInterface::Execute_SetBubbleColor(this, static_cast<EColor>(n));
+        IBubbleInterface::Execute_SetMaterialBubbleColor(this);
     }
     SetLifeSpan(0.f);
     SetActorHiddenInGame(true);
@@ -34,10 +36,10 @@ void ABubbleProjectile::Disable_Implementation()
 
 void ABubbleProjectile::LifeSpanExpired()
 {
-    IBubble* projectileInterface = Cast<IBubble>(this);
+    IBubbleInterface* projectileInterface = Cast<IBubbleInterface>(this);
     if (ensure(projectileInterface))
     {
-        projectileInterface->Execute_Disable(this);
+        IBubbleInterface::Execute_Disable(this);
     }
 }
 
@@ -66,51 +68,54 @@ void ABubbleProjectile::BeginPlay()
 
 void ABubbleProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-    IBubble* bubbleInterface = Cast<IBubble>(OtherActor);
-    IBubble* projectileInterface = Cast<IBubble>(this);
-    if (bubbleInterface && ensure(projectileInterface))
+    IBubbleInterface* bubbleInterface = Cast<IBubbleInterface>(OtherActor);
+    IBubbleInterface* projectileInterface = Cast<IBubbleInterface>(this);
+    if (bubbleInterface != nullptr && projectileInterface != nullptr)
     {
-        EColor hittedColor = bubbleInterface->Execute_GetBubbleColor(OtherActor);
-        if (hittedColor == projectileInterface->Execute_GetBubbleColor(this))
+        EColor hittedColor = IBubbleInterface::Execute_GetBubbleColor(OtherActor);
+        if (hittedColor == IBubbleInterface::Execute_GetBubbleColor(this))
         {
-            bubbleInterface->Execute_Disable(OtherActor);
+            IBubbleInterface::Execute_Disable(OtherActor);
         }
         else
         {
-            UWorld* const World = GetWorld();
-            if (World != nullptr)
-            {
-                FVector direction = GetActorForwardVector();
-                FVector origin;
-                FVector box;
-                OtherActor->GetActorBounds(true, origin, box);
-                direction *= -1; 
-                FVector spawnLocation = GetActorLocation() + direction * box.Z;
-                spawnLocation.Z = OtherActor->GetActorLocation().Z;
+            FVector direction = GetActorForwardVector();
+            FVector origin;
+            FVector box;
+            OtherActor->GetActorBounds(true, origin, box);
+            direction *= -1; 
+            FVector spawnLocation = GetActorLocation() + direction * box.Z;
+            spawnLocation.Z = OtherActor->GetActorLocation().Z;
 
-                AGhost* ghost;
-                if (EnemySpawner != nullptr)
-                {
-                    ghost = EnemySpawner->SpawnEnemy(spawnLocation, OtherActor->GetActorRotation());
-                }
-                else
-                {
-                    ghost = (AGhost*)World->SpawnActor<AGhost>(GhostClass, spawnLocation, OtherActor->GetActorRotation());
-                }
-                if (ghost != nullptr)
-                {
-                    IBubble* ghostBubble = Cast<IBubble>(ghost);
-                    ensure(ghostBubble);
-                    ghostBubble->Execute_SetBubbleColor(ghost, m_eColor);
-                    ghostBubble->Execute_SetMaterialBubbleColor(ghost);
-                }
+            AGhost* ghost;
+            if (EnemySpawner != nullptr)
+            {
+                ghost = EnemySpawner->SpawnEnemy(spawnLocation, OtherActor->GetActorRotation());
+            }
+            else
+            {
+                UWorld* const World = GetWorld();
+                ghost = (AGhost*)World->SpawnActor<AGhost>(GhostClass, spawnLocation, OtherActor->GetActorRotation());
+            }
+
+            if (ghost != nullptr)
+            {
+                IBubbleInterface* ghostBubble = Cast<IBubbleInterface>(ghost);
+                ensure(ghostBubble);
+                IBubbleInterface::Execute_SetBubbleColor(ghost, m_eColor);
+                IBubbleInterface::Execute_SetMaterialBubbleColor(ghost);
+            }
+            else
+            {
+                UE_LOG(LogTemp, Error, TEXT("Cannot spawn new ghost after collision"))
             }
         }
-        projectileInterface->Execute_Disable(this);
+
+        IBubbleInterface::Execute_Disable(this);
     }
 }
 
-EColor ABubbleProjectile::GetBubbleColor_Implementation()
+EColor ABubbleProjectile::GetBubbleColor_Implementation() const
 {
     return m_eColor;
 }

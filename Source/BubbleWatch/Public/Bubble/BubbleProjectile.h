@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Bubble.h"
+#include "BubbleInterface.h"
 #include "GameFramework/Actor.h"
+#include "Bubble_fwd.h"
 #include "BubbleProjectile.generated.h"
 
 class UProjectileMovementComponent;
@@ -12,28 +13,24 @@ class UShapeComponent;
 class AEnemySpawner;
 
 UCLASS()
-class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubble
+class BUBBLEWATCH_API ABubbleProjectile : public AActor, public IBubbleInterface
 {
     GENERATED_BODY()
 
 public:
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void Enable();
     virtual void Enable_Implementation() override;
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void Disable();
     virtual void Disable_Implementation() override;
    
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    EColor GetBubbleColor();
-    virtual EColor GetBubbleColor_Implementation() override;
+    virtual EColor GetBubbleColor_Implementation() const override;
 
-    UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-    void SetBubbleColor(EColor Color);
     virtual void SetBubbleColor_Implementation(EColor Color) override;
 
+    /* When a bubble projectile hit something it will check if it is another bubble and it is the same color.
+       - If true, both bubbles will be disabled
+       - If false, it will spawn a new enemy with the color of the bubble
+    */
     UFUNCTION()
     void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
@@ -45,12 +42,13 @@ protected:
 
 public:
 
+    //TODO Create some kind of entity manager to get the Enemy Spawner of the current level
     UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Settings")
     AEnemySpawner* EnemySpawner;
 
 private:
 
-    UPROPERTY(EditAnyWhere, Category = "Settings")
+    //UPROPERTY(EditAnyWhere, Category = "Settings")
     EColor m_eColor;
 
     UPROPERTY(EditDefaultsOnly, Category = "Settings")

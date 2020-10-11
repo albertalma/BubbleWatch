@@ -16,8 +16,8 @@ class BUBBLEWATCH_API UBubbleProjectilePool : public UBubblePool
 
 public:
 
-    EColor GetCurrentBubbleColor();
+    EColor GetCurrentBubbleColor() const;
 
-    EColor GetNextBubbleColor();
+    EColor GetNextBubbleColor() const;
 
 };

@@ -38,7 +38,6 @@ private:
     UPROPERTY(EditAnyWhere, Category = "Spawn Settings")
     float m_fSpawnRateSeconds;
 
-    //TODO Revise Categories
     UPROPERTY(EditAnyWhere, Category = "Spawn Settings")
     TSubclassOf<class AGhost> GhostClass;
 

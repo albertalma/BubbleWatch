@@ -2,9 +2,10 @@
 
 
 #include "GhostPool.h"
+#include "BubbleInterface.h"
 
-IBubble* UGhostPool::GetBubble()
+IBubbleInterface* UGhostPool::PopBubble()
 {
-    IBubble* bubble = Cast<IBubble>(m_aBubblePool.Pop(true).GetObject());
+    IBubbleInterface* bubble = Cast<IBubbleInterface>(m_aBubblePool.Pop(true).GetObject());
     return bubble;
 }
